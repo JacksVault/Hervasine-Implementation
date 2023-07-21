@@ -67,6 +67,10 @@ if ("geolocation" in navigator) {
       } else {
         console.log("User is out of the region.");
       }
+      //If out of region, disable the "Check In" button
+        if (distance > regionRadius) {
+            disableCheckInButton();
+        }
     },
     (error) => {
       console.error("Error getting location:", error.message);
