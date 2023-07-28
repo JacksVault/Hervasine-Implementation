@@ -18,12 +18,16 @@ document.getElementById("time_in").addEventListener("click", function(event) {
       handleError(error.message);
       // Disable the Time In button if location access is denied
       document.getElementById("time_in").disabled = true;
+      // Show error notification bubble and hide after 10 seconds
+      showNotificationBubble(error.message, "error", 10000);
     });
   } else {
     // Browser does not support geolocation
     handleError("Geolocation is not supported in this browser.");
     // Disable the Time In button if geolocation is not supported
     document.getElementById("time_in").disabled = true;
+    // Show error notification bubble and hide after 10 seconds
+    showNotificationBubble("Geolocation is not supported in this browser.", "error", 10000);
   }
 });
 
@@ -31,8 +35,8 @@ document.getElementById("time_in").addEventListener("click", function(event) {
 function checkGeofence(latitude, longitude) {
   // Replace the following values with the latitude and longitude of your geofence boundary
   //-0.1939823,35.9330245 //-0.150737,35.960999
-  const geofenceLatitude = -0.1939823;
-  const geofenceLongitude = 35.9330245;
+  const geofenceLatitude = -0.150737;
+  const geofenceLongitude = 35.960999;
   const geofenceRadius = 10; // Geofence radius in meters
 
   // Calculate the distance between the user's location and the geofence center
@@ -43,12 +47,16 @@ function checkGeofence(latitude, longitude) {
     // User is within the geofence, proceed with check-in
     logMessage("User is within the geofence. Check-in successful!");
     // Add your code here to log the attendance and any other actions needed for successful check-in.
+    // Show success notification bubble and hide after 5 seconds
+    showNotificationBubble("Check-in successful!", "success", 5000);
   } else {
     // User is outside the geofence, prevent check-in
     logMessage("User is outside the geofence. Check-in disabled.");
     // Add your code here to display a message to the user or handle the check-in rejection.
     // Disable the Time In button when the user is out of the geofence
     document.getElementById("time_in").disabled = true;
+    // Show error notification bubble and hide after 10 seconds
+    showNotificationBubble("You are outside the geofence. Check-in disabled.", "error", 10000);
   }
 }
 
@@ -82,4 +90,16 @@ function handleError(errorMessage) {
 // Function to log messages to the console for diagnostics
 function logMessage(message) {
   console.log(message);
+}
+
+// Function to show notification bubbles
+function showNotificationBubble(message, type, duration) {
+  const notificationContainer = document.getElementById("notification-container");
+  const notificationBubble = document.createElement("div");
+  notificationBubble.className = `notification-bubble ${type}`;
+  notificationBubble.textContent = message;
+  notificationContainer.appendChild(notificationBubble);
+  setTimeout(function() {
+    notificationContainer.removeChild(notificationBubble);
+  }, duration);
 }
