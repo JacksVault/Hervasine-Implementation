@@ -24,8 +24,9 @@ document.getElementById("time_in").addEventListener("click", function(event) {
 // Function to check if the user is within the geofence
 function checkGeofence(latitude, longitude) {
   // Replace the following values with the latitude and longitude of your geofence boundary
-  const geofenceLatitude = YOUR_GEOFENCE_LATITUDE;
-  const geofenceLongitude = YOUR_GEOFENCE_LONGITUDE;
+  //-0.1939823,35.9330245 //-0.150737,35.960999
+  const geofenceLatitude = -0.150737;
+  const geofenceLongitude = 35.960999;
   const geofenceRadius = 10; // Geofence radius in meters
 
   // Calculate the distance between the user's location and the geofence center
@@ -46,6 +47,23 @@ function checkGeofence(latitude, longitude) {
 // Function to calculate the distance between two points using Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
   // Add your code here to calculate the distance between the points using the Haversine formula.
+  // The result should be in meters.
+  //R should be in meters
+  const R = 6371000; // metres
+  const φ1 = lat1 * Math.PI/180; // φ, λ in radians
+  const φ2 = lat2 * Math.PI/180;
+  const Δφ = (lat2-lat1) * Math.PI/180;
+  const Δλ = (lon2-lon1) * Math.PI/180;
+
+  const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+          Math.cos(φ1) * Math.cos(φ2) *
+          Math.sin(Δλ/2) * Math.sin(Δλ/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+  const d = R * c; // in metres
+  console.log("Distance between the points:", d, "meters");
+  return d;
+
 }
 
 // Function to handle errors and display messages
