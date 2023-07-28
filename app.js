@@ -9,6 +9,8 @@ document.getElementById("time_in").addEventListener("click", function(event) {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
+      console.log("User location:", latitude, longitude); // Log the retrieved user location
+
       // Call the function to check if the user is within the geofence
       checkGeofence(latitude, longitude);
     }, function(error) {
@@ -63,7 +65,6 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   const d = R * c; // in metres
   console.log("Distance between the points:", d, "meters");
   return d;
-
 }
 
 // Function to handle errors and display messages
