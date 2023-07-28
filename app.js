@@ -16,10 +16,14 @@ document.getElementById("time_in").addEventListener("click", function(event) {
     }, function(error) {
       // Handle error obtaining location
       handleError(error.message);
+      // Disable the Time In button if location access is denied
+      document.getElementById("time_in").disabled = true;
     });
   } else {
     // Browser does not support geolocation
     handleError("Geolocation is not supported in this browser.");
+    // Disable the Time In button if geolocation is not supported
+    document.getElementById("time_in").disabled = true;
   }
 });
 
@@ -27,8 +31,8 @@ document.getElementById("time_in").addEventListener("click", function(event) {
 function checkGeofence(latitude, longitude) {
   // Replace the following values with the latitude and longitude of your geofence boundary
   //-0.1939823,35.9330245 //-0.150737,35.960999
-  const geofenceLatitude = -0.150737;
-  const geofenceLongitude = 35.960999;
+  const geofenceLatitude = -0.1939823;
+  const geofenceLongitude = 35.9330245;
   const geofenceRadius = 10; // Geofence radius in meters
 
   // Calculate the distance between the user's location and the geofence center
@@ -43,10 +47,12 @@ function checkGeofence(latitude, longitude) {
     // User is outside the geofence, prevent check-in
     logMessage("User is outside the geofence. Check-in disabled.");
     // Add your code here to display a message to the user or handle the check-in rejection.
+    // Disable the Time In button when the user is out of the geofence
+    document.getElementById("time_in").disabled = true;
   }
 }
 
-// Function to calculate the distance between two points using Haversine formula
+// Function to calculate the distance between two points using the Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
   // Add your code here to calculate the distance between the points using the Haversine formula.
   // The result should be in meters.
